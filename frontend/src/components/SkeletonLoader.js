@@ -16,7 +16,7 @@ const keyframes = `
 `;
 
 const SkeletonLoader = ({ count = 5 }) => (
-  <div>
+  <div data-testid="skeleton-loader">
     <style>{keyframes}</style>
     {Array.from({ length: count }).map((_, index) => (
       <div key={index} style={skeletonStyle} />
