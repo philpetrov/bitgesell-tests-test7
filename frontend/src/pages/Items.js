@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, memo } from 'react';
 import { useData } from '../state/DataContext';
 import { Link } from 'react-router-dom';
 import useDebounce from '../hooks/useDebounce';
@@ -41,14 +41,14 @@ function Items() {
     }
   };
 
-  const Row = ({ index, style }) => {
+  const Row = memo(({ index, style }) => {
     const item = items[index];
     return (
       <div style={style}>
         <Link to={'/items/' + item.id}>{item.name}</Link>
       </div>
     );
-  };
+  });
 
   return (
     <div style={{ padding: 16 }}>

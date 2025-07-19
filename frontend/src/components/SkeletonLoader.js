@@ -1,4 +1,3 @@
-import React from 'react';
 
 const skeletonStyle = {
   backgroundColor: '#e0e0e0',
@@ -15,9 +14,12 @@ const keyframes = `
   }
 `;
 
+const styleSheet = document.createElement('style');
+styleSheet.innerText = keyframes;
+document.head.appendChild(styleSheet);
+
 const SkeletonLoader = ({ count = 5 }) => (
   <div data-testid="skeleton-loader">
-    <style>{keyframes}</style>
     {Array.from({ length: count }).map((_, index) => (
       <div key={index} style={skeletonStyle} />
     ))}
