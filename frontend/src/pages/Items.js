@@ -3,17 +3,20 @@ import { useData } from '../state/DataContext';
 import { Link } from 'react-router-dom';
 import useDebounce from '../hooks/useDebounce';
 import { FixedSizeList as List } from 'react-window';
+import SkeletonLoader from '../components/SkeletonLoader';
 
 function Items() {
   const { items, pagination, fetchItems } = useData();
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(true);
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
 
   const stableFetchItems = useCallback(fetchItems, []);
 
   useEffect(() => {
     const controller = new AbortController();
+    setIsLoading(true);
 
     stableFetchItems({
       q: debouncedSearchTerm,
@@ -23,6 +26,8 @@ function Items() {
       if (err.name !== 'AbortError') {
         console.error(err);
       }
+    }).finally(() => {
+      setIsLoading(false);
     });
 
     return () => {
@@ -54,7 +59,7 @@ function Items() {
         onChange={e => setSearchTerm(e.target.value)}
         style={{ marginBottom: 16, padding: 8, width: '300px' }}
       />
-      {items.length === 0 ? <p>Loading or no items found...</p> : (
+      {isLoading ? <SkeletonLoader count={10} /> : items.length === 0 ? <p>No items found.</p> : (
         <List
           height={400}
           itemCount={items.length}
