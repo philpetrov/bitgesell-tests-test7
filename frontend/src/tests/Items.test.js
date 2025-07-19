@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { DataProvider } from '../state/DataContext';
 import { MemoryRouter } from 'react-router-dom';
-import Items from './Items';
+import Items from '../pages/Items';
 
 // We mock the global fetch function to control API responses in our tests.
 global.fetch = jest.fn();
