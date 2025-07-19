@@ -3,7 +3,6 @@ const express = require('express');
 const fs = require('fs').promises;
 const itemsRouter = require('../src/routes/items');
 
-// Mock the fs.promises module
 jest.mock('fs', () => ({
   promises: {
     readFile: jest.fn(),
@@ -14,7 +13,6 @@ jest.mock('fs', () => ({
 const app = express();
 app.use(express.json());
 app.use('/api/items', itemsRouter);
-// Add a generic error handler for testing purposes
 app.use((err, req, res, next) => {
   res.status(err.status || 500).json({ error: err.message });
 });
@@ -26,7 +24,6 @@ describe('Items API', () => {
   ];
 
   beforeEach(() => {
-    // Reset mocks before each test
     fs.readFile.mockReset();
     fs.writeFile.mockReset();
   });
@@ -80,7 +77,7 @@ describe('Items API', () => {
     it('should add a new item and return it with an ID', async () => {
       const newItem = { name: 'New Gadget', category: 'Tech', price: 199 };
       fs.readFile.mockResolvedValue(JSON.stringify(mockItems));
-      fs.writeFile.mockResolvedValue(); // Mock a successful write
+      fs.writeFile.mockResolvedValue();
 
       const res = await request(app).post('/api/items').send(newItem);
 
@@ -88,7 +85,6 @@ describe('Items API', () => {
       expect(res.body).toHaveProperty('id');
       expect(res.body.name).toEqual(newItem.name);
 
-      // Verify that fs.writeFile was called correctly
       expect(fs.writeFile).toHaveBeenCalledTimes(1);
       const writtenData = JSON.parse(fs.writeFile.mock.calls[0][1]);
 

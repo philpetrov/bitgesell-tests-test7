@@ -3,7 +3,6 @@ const express = require('express');
 const fs = require('fs').promises;
 const statsRouter = require('../src/routes/stats');
 
-// Мокаем модуль fs, чтобы контролировать его в тестах
 jest.mock('fs', () => ({
   promises: {
     readFile: jest.fn(),
@@ -22,10 +21,8 @@ describe('Stats API', () => {
   ];
 
   beforeEach(() => {
-    // Сбрасываем моки перед каждым тестом
     fs.readFile.mockReset();
     fs.stat.mockReset();
-    // Сбрасываем кеш, импортируя его заново для каждого теста
     jest.resetModules();
   });
 
@@ -47,14 +44,11 @@ describe('Stats API', () => {
     fs.stat.mockResolvedValue({ mtime: fileMtime });
     fs.readFile.mockResolvedValue(JSON.stringify(mockItems));
 
-    // Первый вызов для заполнения кеша
     await request(app).get('/api/stats');
     expect(fs.readFile).toHaveBeenCalledTimes(1);
 
-    // Второй вызов
     const res = await request(app).get('/api/stats');
     expect(res.statusCode).toEqual(200);
-    // Проверяем, что readFile не был вызван снова
     expect(fs.readFile).toHaveBeenCalledTimes(1);
   });
 });

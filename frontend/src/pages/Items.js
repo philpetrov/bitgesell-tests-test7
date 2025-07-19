@@ -10,7 +10,6 @@ function Items() {
   const [currentPage, setCurrentPage] = useState(1);
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
 
-  // Используем useCallback, чтобы функция не создавалась заново при каждом рендере
   const stableFetchItems = useCallback(fetchItems, []);
 
   useEffect(() => {
@@ -37,7 +36,6 @@ function Items() {
     }
   };
 
-  // Компонент для рендеринга одного элемента в виртуализированном списке
   const Row = ({ index, style }) => {
     const item = items[index];
     return (
@@ -58,9 +56,9 @@ function Items() {
       />
       {items.length === 0 ? <p>Loading or no items found...</p> : (
         <List
-          height={400} // Высота видимой области списка
+          height={400}
           itemCount={items.length}
-          itemSize={35} // Высота одного элемента
+          itemSize={35}
           width={'100%'}
         >{Row}</List>
       )}

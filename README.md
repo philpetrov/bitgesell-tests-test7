@@ -56,4 +56,4 @@ npm start
 ```
 
 > The frontend proxies `/api` requests to `http://localhost:3001`.
->>>>>>> 48d7083 (initial commit)
+

@@ -4,13 +4,10 @@ const path = require('path');
 const router = express.Router();
 const DATA_PATH = path.join(__dirname, '../../../data/items.json');
 
-// Async utility to read data
 async function readData() {
   const raw = await fs.readFile(DATA_PATH, 'utf-8');
   return JSON.parse(raw);
 }
-
-// GET /api/items
 router.get('/', async (req, res, next) => {
   try {
     const allItems = await readData();
@@ -41,7 +38,6 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-// GET /api/items/:id
 router.get('/:id', async (req, res, next) => {
   try {
     const data = await readData();
@@ -57,10 +53,8 @@ router.get('/:id', async (req, res, next) => {
   }
 });
 
-// POST /api/items
 router.post('/', async (req, res, next) => {
   try {
-    // TODO: Validate payload (intentional omission)
     const item = req.body;
     const data = await readData();
     item.id = Date.now();
