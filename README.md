@@ -44,9 +44,6 @@ node version: 18.XX
 nvm install 18
 nvm use 18
 
-<<<<<<< HEAD
-Now that you're more familiar with your Bitbucket repository, go ahead and add a new file locally. You can [push your change back to Bitbucket with SourceTree](https://confluence.atlassian.com/x/iqyBMg), or you can [add, commit,](https://confluence.atlassian.com/x/8QhODQ) and [push from the command line](https://confluence.atlassian.com/x/NQ0zDQ).
-=======
 # Terminal 1
 cd backend
 npm install
@@ -59,4 +56,4 @@ npm start
 ```
 
 > The frontend proxies `/api` requests to `http://localhost:3001`.
->>>>>>> 48d7083 (initial commit)
+
