@@ -16,9 +16,17 @@ export function DataProvider({ children }) {
       `http://localhost:3001/api/items?${params.toString()}`,
       { signal }
     );
-    const { items: fetchedItems, ...paginationData } = await res.json();
-    setItems(fetchedItems);
-    setPagination(paginationData);
+    const data = await res.json();
+
+    if (data && Array.isArray(data.items)) {
+      const { items: fetchedItems, ...paginationData } = data;
+      setItems(fetchedItems);
+      setPagination(paginationData);
+    } else {
+      setItems([]);
+      setPagination({ currentPage: 1, totalPages: 1, totalItems: 0 });
+      console.error('Received unexpected data structure from API:', data);
+    }
   }, []);
 
   return (
